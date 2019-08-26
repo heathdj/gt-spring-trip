@@ -68,4 +68,7 @@ public class TripControllerTest {
                 .price(BigDecimal.valueOf(1.25))
                 .build();
     }
+
+    // TODO: Add in Unit Test to check for exception on Duplicate Trip ID.
+    // TODO: Add in Unit Tests to check for missing fields.
 }

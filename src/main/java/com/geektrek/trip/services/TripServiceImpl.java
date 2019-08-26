@@ -1,6 +1,7 @@
 package com.geektrek.trip.services;
 
 import com.geektrek.trip.domain.Trip;
+import com.geektrek.trip.exceptions.TripIdException;
 import com.geektrek.trip.repositories.TripRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,14 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public Trip saveOrUpdateProject(Trip trip) {
-        return tripRepository.save(trip);
+
+        trip.setTripIdentifier(trip.getTripIdentifier().toUpperCase());
+        try {
+            return tripRepository.save(trip);
+        } catch (Exception ex) {
+            throw new TripIdException("Trip ID '"+trip.getTripIdentifier().toUpperCase()+"' already exists");
+        }
+
+
     }
 }
