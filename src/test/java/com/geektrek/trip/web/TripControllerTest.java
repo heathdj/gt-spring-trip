@@ -2,6 +2,7 @@ package com.geektrek.trip.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.geektrek.trip.domain.Trip;
+import com.geektrek.trip.services.MapValidationError;
 import com.geektrek.trip.services.TripService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -35,6 +37,9 @@ public class TripControllerTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @MockBean
+    MapValidationError validationError;
 
     @MockBean
     TripService tripService;
