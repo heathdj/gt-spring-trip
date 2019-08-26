@@ -21,4 +21,27 @@ public interface TripService {
      */
     public Trip saveOrUpdateProject(Trip trip);
 
+    /**
+     * Finds a trip by the Trip ID
+     * @param tripId
+     * @return
+     */
+    public Trip findTripByIdentifier(String tripId);
+
+
+    /**
+     * Find all Trips
+     * TODO: Change to Pageable
+     * @return
+     */
+    public Iterable<Trip> findAllTrips();
+
+    /**
+     * Delete by TripId
+     * @param tripId the trip ID to delete
+     */
+    public void deleteTripByIdentifier(String tripId);
+
+    // TODO: Add in Delete by UUID
+
 }

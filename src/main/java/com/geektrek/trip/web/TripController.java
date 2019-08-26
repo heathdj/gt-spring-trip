@@ -3,15 +3,13 @@ package com.geektrek.trip.web;
 import com.geektrek.trip.domain.Trip;
 import com.geektrek.trip.services.MapValidationError;
 import com.geektrek.trip.services.TripService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -28,19 +26,22 @@ import javax.validation.Valid;
  */
 @RequiredArgsConstructor
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/trip")
 public class TripController {
 
+    @SuppressWarnings("Field injection is not reccomended")
     @Autowired
     private TripService tripService;
 
+    @SuppressWarnings("Field injection is not reccomended")
     @Autowired
     private MapValidationError validationError;
 
     /**
      * Create a new Trip
-     * @param trip
-     * @return
+     * @param trip The Trip object to be saved
+     * @return a response object
      */
     @PostMapping("")
     public ResponseEntity<?> createNewTrip(@Valid @RequestBody Trip trip, BindingResult result) {
@@ -50,6 +51,41 @@ public class TripController {
         }
 
         Trip t1 = tripService.saveOrUpdateProject(trip);
-        return new ResponseEntity<Trip>(t1, HttpStatus.CREATED);
+        return new ResponseEntity<>(t1, HttpStatus.CREATED);
+    }
+
+    /**
+     * Find a Trip by the Unique Trip Id
+     * @param tripId The unique Trip Id
+     * @return a response object
+     */
+    @GetMapping("/{tripId}")
+    public ResponseEntity<?> getTripById(@PathVariable String tripId) {
+
+        Trip trip = tripService.findTripByIdentifier(tripId);
+
+        return new ResponseEntity<>(trip, HttpStatus.OK);
+    }
+
+    /**
+     * Get all Trips
+     * TODO: Change to Pageable
+     * @return
+     */
+    @GetMapping("/all")
+    public Iterable<Trip> getAllTrips() {
+        return tripService.findAllTrips();
+    }
+
+    /**
+     * Delete the trip by the trip ID.
+     * @param tripId
+     * @return
+     */
+    @DeleteMapping("/{tripId}")
+    public ResponseEntity<?> deleteTripById(@PathVariable String tripId) {
+        tripService.deleteTripByIdentifier(tripId.toUpperCase());
+
+        return new ResponseEntity<String>("Project with id '" +tripId.toUpperCase()+"' was deleted", HttpStatus.NO_CONTENT);
     }
 }

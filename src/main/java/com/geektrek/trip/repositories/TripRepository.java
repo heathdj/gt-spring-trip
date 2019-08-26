@@ -37,4 +37,14 @@ public interface TripRepository extends JpaRepository<Trip, UUID> {
     //TODO: Add City to Trip Domain Object.
     //Page<Trip> findAllByCity(String city, String countryName, Pageable pageable);
     //Page<Trip> findAllByNameAndCity(String tripName, String city, Locale.IsoCountryCode countryName, Pageable pageable);
+
+    /**
+     * Find a Trip by the Trip Identifier
+     * @param tripId
+     * @return
+     */
+    Trip findByTripIdentifier(String tripId);
+
+    // TODO: Findall by TourLeader pageable
+
 }

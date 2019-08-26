@@ -37,4 +37,47 @@ public class TripServiceImpl implements TripService {
 
 
     }
+
+    /**
+     * Finds a trip by the Trip ID
+     *
+     * @param tripId
+     * @return
+     */
+    @Override
+    public Trip findTripByIdentifier(String tripId) {
+
+        Trip trip = tripRepository.findByTripIdentifier(tripId.toUpperCase());
+
+        if (trip == null) {
+            throw new TripIdException("Trip ID '"+tripId.toUpperCase()+"' does not exist");
+        }
+        return tripRepository.findByTripIdentifier(tripId);
+    }
+
+    /**
+     * Find all Trips TODO: Change to Pageable
+     *
+     * @return
+     */
+    @Override
+    public Iterable<Trip> findAllTrips() {
+        return tripRepository.findAll();
+    }
+
+    /**
+     * Delete by TripId
+     *
+     * @param tripId the trip ID to delete
+     */
+    @Override
+    public void deleteTripByIdentifier(String tripId) {
+        Trip trip = tripRepository.findByTripIdentifier(tripId);
+
+        if (trip == null) {
+            throw new TripIdException("Trip ID '"+tripId.toUpperCase()+"' does not exist, cannot delete");
+        }
+
+        tripRepository.delete(trip);
+    }
 }
